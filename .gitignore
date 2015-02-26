@@ -1,0 +1,6 @@
+# игнорировать все файлы в каталоге .settings/
+.settings/
+target
+.project
+mylogfile.txt
+.classpath
