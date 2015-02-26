@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+ 	 <File name="FILE" filename="mylogfile.txt" append="true">
+            <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n"/> 
+    </File>
+    <Console name="STDOUT" target="SYSTEM_OUT">
+      <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n"/> 
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Logger name="myLogger" level="info">
+      <AppenderRef ref="STDOUT"/>
+    </Logger>
+     <Logger name="myLogger" level="info">
+      <AppenderRef ref="FILE"/>
+    </Logger>
+  </Loggers>
+</Configuration>

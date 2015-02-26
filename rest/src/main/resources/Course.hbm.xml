@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name="rest.domain.Course" table="courses" lazy="false">
+      <id name="id" type="int" column="id">
+         <generator class="increment"/>
+      </id>
+      <property name="name" column="name" type="string"/>
+      <property name="description" column="description" type="string"/>
+      <property name="links" column="links" type="string"/>
+      <property name="reasonDM" column="reasonDM" type="string"/>
+      <property name="reasonKM" column="reasonKM" type="string"/>
+      <property name="minimalSubscribers" column="minimalSubscribers" type="int"/>
+      <property name="minimalAttendee" column="minimalAttendee" type="int"/>
+       <many-to-one name="creater" class="rest.domain.User">
+           <column name="idCreater" not-null="true" />
+       </many-to-one>
+        <many-to-one name="category" class="rest.domain.Category">
+           <column name="idCategory" not-null="true" />
+       </many-to-one>
+      <property name="state" column="state"> 
+   			 <type name="org.hibernate.type.EnumType">
+       	 <param name="enumClass">rest.domain.CourseState</param>
+       	  <param name="useNamed">true</param>
+  		</type>
+  		</property>
+  		 <property name="decisionDM" column="decisionDM"> 
+   			 <type name="org.hibernate.type.EnumType">
+       	 <param name="enumClass">rest.domain.Decision</param>
+       	  <param name="useNamed">true</param>
+  		</type>
+  		</property>
+  		<property name="decisionKM" column="decisionKM"> 
+   			 <type name="org.hibernate.type.EnumType">
+       	 <param name="enumClass">rest.domain.Decision</param>
+       	  <param name="useNamed">true</param>
+  		</type>
+  		</property>
+      <set name="coursesSubscribe" table="courses_subscribes" lazy="false">
+		  <key column="idCourse"/>
+		  <many-to-many column="idUser" class="rest.domain.User"/>
+	  </set>
+	  <set name="coursesAttend" table="courses_attenders" lazy="false">
+		  <key column="idCourse"/>
+		  <many-to-many column="idUser" class="rest.domain.User"/>
+	  </set>	
+	  <map name="coursesEvaluate" table="courses_evaluate" lazy="false">
+      <key column="idCourse"/>
+      <map-key-many-to-many column="idUser" class="rest.domain.User" />
+      <element column="grade" type="integer"/>
+    </map>
+      
+   </class>
+</hibernate-mapping>
