@@ -11,32 +11,6 @@
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <import resource="classpath:/META-INF/spring/marshaller/jaxb2-marshaller-context.xml"/>
-    
-    <context:component-scan base-package="org.springbyexample.contact.web.client" />
-    
-    <bean id="httpClient" class="org.apache.http.impl.client.DefaultHttpClient">
-        <constructor-arg>
-            <bean class="org.apache.http.impl.conn.PoolingClientConnectionManager"/>
-        </constructor-arg>
-    </bean>
-    
-    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"
-          p:messageConverters-ref="messageConvertersList">
-        <constructor-arg>
-            <bean class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
-                <constructor-arg ref="httpClient"/>
-            </bean>
-        </constructor-arg>
-    </bean>
-
-    <util:list id="messageConvertersList">
-        <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter"
-              p:supportedMediaTypes="application/xml">
-            <property name="marshaller" ref="marshaller" />
-            <property name="unmarshaller" ref="marshaller" />
-        </bean>
-    </util:list>
     
      <bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
     </bean>
@@ -49,15 +23,7 @@
         </property>
     </bean>
         
-    <beans profile="rest-json">
-        <import resource="classpath:/META-INF/spring/mvc/rest-json-converter-context.xml"/>
-        <import resource="classpath:/META-INF/spring/mvc/rest-json-type-converter-context.xml"/>
-    
-        <!-- since id is the same as XML list above, essentially overriding the other list -->
-        <util:list id="messageConvertersList">
-            <ref bean="mappingJacksonHttpMessageConverterWithType"/>
-        </util:list>
-    </beans>
+
     
       
 

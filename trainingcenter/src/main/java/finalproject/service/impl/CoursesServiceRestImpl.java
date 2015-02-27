@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import finalproject.dao.CoursesDAO;
 import finalproject.dao.UsersDAO;
@@ -27,8 +28,8 @@ import finalproject.service.MailService;
 import finalproject.service.SecurityService;
 
 
-//@Service("coursesService")
-public class CoursesServiceImpl implements CoursesService{
+@Service("coursesService")
+public class CoursesServiceRestImpl implements CoursesService{
 
 	@Autowired
 	private CoursesDAO coursesDAO;
@@ -46,7 +47,7 @@ public class CoursesServiceImpl implements CoursesService{
 	
 	static public final HashMap<String,UserSets> commands = new HashMap<String,UserSets>();
 	
-	public CoursesServiceImpl()
+	public CoursesServiceRestImpl()
 	{
 		commands.put("subcribe", new AddSubcribeCourse());
 		commands.put("attend", new AddAttendCourse());
@@ -147,7 +148,12 @@ public class CoursesServiceImpl implements CoursesService{
 	}
 	
 	public Course getCourse(int id){
-		return coursesDAO.getCourse(id);
+		RestTemplate restTemplate = new RestTemplate();
+		System.out.println("http://localhost:8080/finalproject/rest/courses/" + id);
+		Course course = restTemplate.getForObject("http://localhost:8080/finalproject/rest/courses/" + id, Course.class);
+		System.out.println(course);
+		return course;
+		//return coursesDAO.getCourse(id);
 	}
 
 	public List<Category> getAllCategories() {

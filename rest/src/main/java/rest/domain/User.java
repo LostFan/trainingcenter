@@ -3,11 +3,13 @@ package rest.domain;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class User {
 	private int id;
 	
 	private String name;
-	
+	@JsonIgnore
 	private String password;
 	
 	private Role role;

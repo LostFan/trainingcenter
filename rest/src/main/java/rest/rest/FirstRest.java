@@ -20,12 +20,13 @@ import rest.dao.CoursesDAO;
 import rest.dao.UsersDAO;
 import rest.dao.impl.UsersDAOImpl;
 import rest.domain.User;
+import rest.security.PasswordHasher;
 
 
 
 
 @Component
-@Path("/users/{id}")
+@Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 public class FirstRest {
 	
@@ -36,6 +37,18 @@ public class FirstRest {
 	private UsersDAO usersDAO;
 	
 
+		
+	@Path("/{name}/{pass}")
+	@GET
+    public Response getUserByNameAndPass(@PathParam("name") String name, @PathParam ("pass") String password) {
+		
+		User user = (User) usersDAO.getUserForNameAndPassword(name, PasswordHasher.md5(password));
+		System.out.println(user);
+		return Response.status(Response.Status.OK).entity(user).build();
+
+    }
+
+	@Path("/{id}")
 	@GET
     public Response getUserById(@PathParam("id") String id) {
 		
